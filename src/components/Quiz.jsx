@@ -1,8 +1,8 @@
 import React from 'react' 
 import { useState, useCallback } from 'react'
 import Question from '../Data/Question'
-import Trophy from '../assets/quiz-complete.png'
 import QuestionComponents from './Question'
+import Summary from './Summary'
 
 function Quiz() {
     const [userQuestion , setUserQuestion] =useState([])
@@ -21,13 +21,9 @@ function Quiz() {
     },[handleClick])
 
     if(Checklength){
-       return (
-        <div id='summary'>
-        <img src={Trophy} alt="" />
-        <h2>Quiz Completed</h2>
-        </div>
-      )
+     return <Summary userQuestion={userQuestion} />
     }
+    console.log(setUserQuestion)
 
   return (
     <div id='quiz'>
