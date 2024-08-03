@@ -1,7 +1,8 @@
 import React from 'react' 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Question from '../Data/Question'
 import Trophy from '../assets/quiz-complete.png'
+import ProgressBar from './ProgressBar'
 
 function Quiz() {
     const [userQuestion , setUserQuestion] =useState([])
@@ -9,9 +10,15 @@ function Quiz() {
     const userQuestionIndex = userQuestion.length;
     const Checklength = userQuestionIndex === Question.length
 
-    const handleClick = (userSelectAnswer) =>{
-      setUserQuestion(prevAnswer => [...userQuestion , userSelectAnswer])
-    }
+    const handleClick = useCallback(
+      function handleClick (userSelectAnswer){
+        setUserQuestion(prevAnswer => [...userQuestion , userSelectAnswer])
+      }
+    ,[userQuestion])
+
+    const handleSaveCallback = useCallback(()=>{
+      handleClick(null)
+    },[handleClick])
 
     if(Checklength){
        return (
@@ -27,6 +34,7 @@ function Quiz() {
   return (
     <div id='quiz'>
       <div id='question'>
+        <ProgressBar key={userQuestionIndex} time={10000} insertNull={handleSaveCallback}/>
         <h2>{Question[userQuestionIndex].text}</h2>
         <ul id='answers'>
           {shuffle.map((answer)=>{
